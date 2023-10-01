@@ -1,6 +1,7 @@
 const amqp = require("amqplib");
 const dotenv = require("dotenv");
 const fs = require("fs");
+const express = require("express")
 const mongoose = require("mongoose");
 const https = require("https");
 const { execSync: exec } = require("child_process");
@@ -9,6 +10,7 @@ const ffmpegStatic = require("ffmpeg-static");
 const { Video } = require("./model");
 
 dotenv.config();
+const app = express()
 
 const queue = "video";
 let url = process.env.AMQPURL;
@@ -38,7 +40,7 @@ async function transcribeLocalVideo(filePath) {
   return response.results;
 }
 
-module.exports = (async () => {
+ const listenMq = async () => {
   try {
     const connection = await amqp.connect(url);
     const channel = await connection.createChannel();
@@ -77,4 +79,15 @@ module.exports = (async () => {
   } catch (err) {
     console.warn(err);
   }
-})();
+};
+PORT = process.env.PORT
+const startApp = async () => {
+  await listenMq();
+  app.listen(PORT, () => {
+    console.log(`server is listening on port ${PORT}`);
+  });
+};
+
+startApp();
+ 
+module.exports = app
