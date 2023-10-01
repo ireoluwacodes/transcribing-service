@@ -38,7 +38,7 @@ async function transcribeLocalVideo(filePath) {
   return response.results;
 }
 
-(async () => {
+module.exports = (async () => {
   try {
     const connection = await amqp.connect(url);
     const channel = await connection.createChannel();
