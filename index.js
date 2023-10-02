@@ -81,8 +81,8 @@ async function transcribeLocalVideo(filePath) {
   }
 };
 PORT = process.env.PORT
+listenMq();
 const startApp = async () => {
-  await listenMq();
   app.listen(PORT, () => {
     console.log(`server is listening on port ${PORT}`);
   });
