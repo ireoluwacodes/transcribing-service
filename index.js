@@ -80,6 +80,9 @@ async function transcribeLocalVideo(filePath) {
     console.warn(err);
   }
 };
+app.get('/',(req,res)=>{
+ res.send("mq server home page")
+})
 PORT = process.env.PORT
 listenMq();
 const startApp = async () => {
